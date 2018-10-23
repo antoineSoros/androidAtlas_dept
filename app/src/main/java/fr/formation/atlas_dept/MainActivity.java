@@ -71,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btDelete(View view) {
+        try {
+            dept.delete();
+        } catch (Exception e) {
+            Toast.makeText(this,"suppression impossible",Toast.LENGTH_LONG).show();        }
     }
 
     public void btInsert(View view) {
@@ -91,8 +95,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btUpdate(View view) {
+        dept.setDateCreation(etDateCreation.getText().toString());
+        dept.setChefLieu(etChefLieu.getText().toString());
+        dept.setNom(etNom.getText().toString());
+        dept.setNoDept(etNoDept.getText().toString());
+        dept.setNomStd(etNomStd.getText().toString());
+        dept.setUrlWiki(etUrlWiki.getText().toString());
+        dept.setNoRegion(Integer.parseInt(etNoRegion.getText().toString()));
+        dept.setSurface(Integer.parseInt(etSurface.getText().toString()));
+        try {
+            dept.update();
+        } catch (Exception e) {
+            Toast.makeText(this,"Update impossible",Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void deleteDB(View view) {
+
     }
 }
