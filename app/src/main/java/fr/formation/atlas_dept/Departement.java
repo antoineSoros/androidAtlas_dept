@@ -24,21 +24,23 @@ public class Departement {
     public Departement(Context c, String no){
     this.noDept = no;
     }
+
     public void select(String no) throws Exception{
         Exception e= new SQLException();
-        String critere= noDept;
+        String critere= "no_dept='"+no+"'";
         String colonnes[]={"no_dept","no_region","nom","nom_std","surface","date_creation","chef_lieu","url_wiki"};
         Cursor cursor = db.query("departements", colonnes, critere, null, null, null, null);
-        cursor.moveToFirst();
+
        if (cursor.getCount()>0 ) {
-        noDept =  cursor.getString(0);
-        noRegion=cursor.getInt(1);
-        nom=cursor.getString(2);
-        nomStd=cursor.getString(3);
-        surface=cursor.getInt(4);
-        chefLieu=cursor.getString(6);
-        urlWiki=cursor.getString(7);
-        dateCreation=cursor.getString(5);}
+           cursor.moveToFirst();
+         setNoDept( cursor.getString(0));
+        setNoRegion(Integer.parseInt(cursor.getString(1)));
+        setNom(cursor.getString(2));
+        setNomStd(cursor.getString(3));
+        setSurface(Integer.parseInt(cursor.getString(4)));
+        setChefLieu(cursor.getString(6));
+        setUrlWiki(cursor.getString(7));
+        setDateCreation(cursor.getString(5));}
         else {
            throw e;
        }
