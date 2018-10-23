@@ -13,7 +13,7 @@ class DbGeo extends SQLiteOpenHelper {
     //		Constructeur privé
     //		Méthode statique getInstance()
 
-    private DbGeo(Context ctxt) {
+    DbGeo(Context ctxt) {
         super(ctxt, "geo", null, 1);
         this.ctxt = ctxt;
     }
