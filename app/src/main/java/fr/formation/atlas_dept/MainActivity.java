@@ -55,12 +55,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btClear(View view) {
+        etSearch.setEnabled(true);
+        etSearch.setText("");
+        etNoDept.setText("");
+        etChefLieu.setText("");
+        etDateCreation.setText("");
+        etUrlWiki.setText("");
+        etNom.setText("");
+        etSurface.setText(String.valueOf(""));
+        etNoRegion.setText(String.valueOf(""));
+        etNomStd.setText("");
+        dept=new Departement(this);
+
+
     }
 
     public void btDelete(View view) {
     }
 
     public void btInsert(View view) {
+        dept.setDateCreation(etDateCreation.getText().toString());
+        dept.setChefLieu(etChefLieu.getText().toString());
+        dept.setNom(etNom.getText().toString());
+        dept.setNoDept(etNoDept.getText().toString());
+        dept.setNomStd(etNomStd.getText().toString());
+        dept.setUrlWiki(etUrlWiki.getText().toString());
+        dept.setNoRegion(Integer.parseInt(etNoRegion.getText().toString()));
+        dept.setSurface(Integer.parseInt(etSurface.getText().toString()));
+        try {
+            dept.insert();
+        } catch (Exception e) {
+           Toast.makeText(this,"Departement deja dans la,liste",Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void btUpdate(View view) {
