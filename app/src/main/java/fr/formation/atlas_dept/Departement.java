@@ -1,16 +1,22 @@
 package fr.formation.atlas_dept;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
+
+import java.util.EmptyStackException;
 
 public class Departement {
-    String noDept,nom,nomStd,dateCreation,chefLieu,urlWiki;
-    int noRegion,surface;
+   private String noDept,nom,nomStd,dateCreation,chefLieu,urlWiki;
+    private int noRegion,surface;
 
     private SQLiteDatabase db;
 
     public Departement(Context c) {
-        DbGeo dbGeo = new DbGeo(c);
+        DbGeo dbGeo = (DbGeo.getInstance(c));
         db = dbGeo.getWritableDatabase();
 
     }
@@ -19,13 +25,98 @@ public class Departement {
     this.noDept = no;
     }
     public void select(String no) throws Exception{
+        Exception e= new SQLException();
+        String critere= noDept;
+        String colonnes[]={"no_dept","no_region","nom","nom_std","surface","date_creation","chef_lieu","url_wiki"};
+        Cursor cursor = db.query("departements", colonnes, critere, null, null, null, null);
+        cursor.moveToFirst();
+       if (cursor.getCount()>0 ) {
+        noDept =  cursor.getString(0);
+        noRegion=cursor.getInt(1);
+        nom=cursor.getString(2);
+        nomStd=cursor.getString(3);
+        surface=cursor.getInt(4);
+        chefLieu=cursor.getString(6);
+        urlWiki=cursor.getString(7);
+        dateCreation=cursor.getString(5);}
+        else {
+           throw e;
+       }
 
 
-    }
+
+       }
 
     public void delete()throws Exception{
 
+     if(!noDept.isEmpty()){
+            String critere ="id="+noDept;
+            db.delete("departements",critere,null);}
+
+
+       else{
+
+            throw new EmptyStackException();
+        }
+
+
     }
+
+
+    public void update()throws Exception{
+        if(!noDept.isEmpty()){
+        ContentValues values = new ContentValues();
+        values.put("no_dept",noDept);
+        values.put("no_region",noRegion);
+        values.put("nom",nom);
+        values.put("nom_std",nomStd);
+        values.put("surface",surface);
+        values.put("date_creation",dateCreation);
+        values.put("chef_lieu",chefLieu);
+        values.put("url_wiki",urlWiki);
+        db.update("departements",values,null,null);}
+        else{
+
+            throw new EmptyStackException();
+        }
+
+
+
+
+
+
+    }
+    public void insert()throws Exception{
+
+        if(!noDept.isEmpty()){
+
+            try{
+
+            ContentValues values = new ContentValues();
+            values.put("no_dept",noDept);
+            values.put("no_region",noRegion);
+            values.put("nom",nom);
+            values.put("nom_std",nomStd);
+            values.put("surface",surface);
+            values.put("date_creation",dateCreation);
+            values.put("chef_lieu",chefLieu);
+            values.put("url_wiki",urlWiki);
+            db.insert("departements","",values);}
+            catch(Exception ex){
+                throw ex;
+            }
+
+            }
+        else{
+            throw new EmptyStackException();
+        }
+
+    }
+
+
+
+
+
 
     public String getNoDept() {
         return noDept;
